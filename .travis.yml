@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: tf0HiRk7ijHV8UN6yQKDSg8n/J2oiarCoLwPGA1mo+kuMYtHYj9ffvvVvQ6YLWgwlZ1cS6zBQ8HgyGtHJzNKAOMQV/ShVA2yFYvLfY8rzJyRKXzy4bp2KyZ5mIi3YwuT6xEe2QGaWWwngeatw+EkBabZ7672vdyuJL0SXiYIL237OCoQPpcLK3GIw2n86E+JdzTuRBxbOm11ajvsHbDuEW8GjGjf1lF8SNnRxlvVs+TDpIWtRFOoLQ4lXuT65W1o3XhubVTinHKgi5gb1r+m/fSnZeVf9GFeYEm97AwRv9Y+yVwqEqVScCb22li8wEdv9w8tRsjEDoKZFXZ3dFbE0OkGBYSrDsq4sMS/b0OzMxt3Q3cp18eIXpNbjSFco/ndx9LrfxxAcPk9Vzkr1KCODIIrGXTkDyDaUbMvd/9m8rqXP8QyUlTXWoFgR7ccQTaNzvnqezYdYq8K2nHKgr+uvrfFH3wFd9Kxy/dSH+cLMy0UIgEmbE07ql7aDKOOVGb1VjX/Yj5x5jv2SG2cUx6G4qeRVwjvKaT+kUrnNI8g0N7snUjS3SZ0ZtNF8FJT7KV6yvXR0rvi4wCb7cIkRymszhKghjZ4GSvYI91/5GwOdHGA1xRwxLRBOceYtb0h42E2ZOa8hPUuleDNo5v3ouyhfuv+t9/NlZpWK0lJVBORcpc=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/A-Lady-s-Visit-to-the-Gold-Diggings-of-Australia-in-1852-53_4054
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
