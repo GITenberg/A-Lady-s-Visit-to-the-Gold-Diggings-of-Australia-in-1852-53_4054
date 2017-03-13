@@ -1,5 +1,8 @@
 _repo: A-Lady-s-Visit-to-the-Gold-Diggings-of-Australia-in-1852-53_4054
-_version: 0.1.0
+_version: 0.2.0
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Clacy, Charles, Mrs.
@@ -13,6 +16,8 @@ description: This fascinating travelogue details the visit of author Ellen Clacy
   Twenty-year-old Clacy's visit wasn't a genteel carriage tour -- she camped under
   the stars and walked hundreds of miles with her brother en route to the mining operations
   at Bendigo. An engaging account for fans of vivid travel accounts.
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/4054#A-Lady-s-Visit-to-the-Gold-Diggings-of-Australia-in-1852-53
 gutenberg_bookshelf: Australia
 gutenberg_issued: '2003-05-01'
 gutenberg_type: Text
